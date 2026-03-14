@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUTLAWS SERVER</title>
+
+<style>
+
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:black;
+color:white;
+text-align:center;
+overflow:hidden;
+}
+
+/* المطر */
+
+.rain{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+z-index:-2;
+}
+
+.drop{
+position:absolute;
+bottom:100%;
+width:2px;
+height:60px;
+background:rgba(255,255,255,0.15);
+animation:rain 0.7s linear infinite;
+}
+
+@keyframes rain{
+to{
+transform:translateY(120vh);
+}
+}
+
+/* البرق */
+
+.lightning{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+z-index:-1;
+animation:flash 7s infinite;
+}
+
+@keyframes flash{
+0%,95%,100%{opacity:0;}
+96%{opacity:0.25;}
+97%{opacity:0;}
+98%{opacity:0.4;}
+}
+
+/* الحاوية */
+
+.container{
+max-width:900px;
+margin:auto;
+padding:40px 20px;
+}
+
+/* اللوقو */
+
+.logo{
+width:500px;
+max-width:90%;
+margin-bottom:20px;
+}
+
+/* العنوان */
+
+.title{
+font-size:26px;
+font-weight:900;
+letter-spacing:2px;
+}
+
+/* النص */
+
+.coming{
+margin-top:40px;
+font-size:18px;
+color:#ccc;
+}
+
+/* IP */
+
+.ipbox{
+margin-top:15px;
+font-size:14px;
+color:#aaa;
+background:#111;
+display:inline-block;
+padding:8px 18px;
+border-radius:20px;
+border:1px solid #333;
+}
+
+/* الأقسام */
+
+.sections{
+margin-top:35px;
+display:flex;
+gap:15px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.card{
+background:#111;
+border:1px solid #333;
+padding:18px 28px;
+border-radius:10px;
+transition:0.3s;
+color:#ddd;
+}
+
+.card:hover{
+transform:translateY(-5px);
+border-color:#777;
+}
+
+/* تسجيل الدخول */
+
+.admin{
+margin-top:40px;
+background:#0a0a0a;
+border:1px solid #333;
+padding:25px;
+border-radius:12px;
+}
+
+input{
+width:90%;
+max-width:320px;
+padding:10px;
+margin:6px;
+background:#111;
+border:1px solid #444;
+color:white;
+border-radius:6px;
+}
+
+button{
+margin-top:8px;
+padding:10px 30px;
+background:#111;
+border:1px solid #666;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
+
+button:hover{
+background:#222;
+}
+
+/* الرتبة */
+
+.rank{
+margin-top:18px;
+display:inline-block;
+padding:8px 20px;
+background:#050505;
+border:1px solid #222;
+border-radius:20px;
+color:#bbb;
+font-size:13px;
+}
+
+/* الجوال */
+
+@media (max-width:600px){
+
+.logo{
+width:280px;
+}
+
+.title{
+font-size:22px;
+}
+
+.sections{
+flex-direction:column;
+align-items:center;
+}
+
+.card{
+width:80%;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="rain" id="rain"></div>
+<div class="lightning"></div>
+
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<div class="title">
+OUTLAWS SERVER
+</div>
+
+<div class="coming">
+الموقع تحت الصيانة<br>
+قريباً...
+</div>
+
+<div class="ipbox">
+IP الخاص بك: <span id="ip">جاري التحميل...</span>
+</div>
+
+<div class="sections">
+
+<div class="card">الأمن السيبراني</div>
+<div class="card">قسم الألعاب</div>
+<div class="card">الدعم</div>
+
+</div>
+
+<div class="admin">
+
+<h3>تسجيل دخول الأدمن</h3>
+
+<input type="text" placeholder="اسم المستخدم"><br>
+<input type="password" placeholder="كلمة المرور"><br>
+
+<button>تسجيل الدخول</button>
+
+<div class="rank">
+الرتبة السوداء 🖤
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* إنشاء المطر */
+
+let rain = document.getElementById("rain");
+
+for(let i=0;i<120;i++){
+let drop=document.createElement("div");
+drop.className="drop";
+drop.style.left=Math.random()*100+"%";
+drop.style.animationDuration=(0.5+Math.random())+"s";
+drop.style.opacity=Math.random();
+rain.appendChild(drop);
+}
+
+/* جلب IP */
+
+fetch("https://api.ipify.org?format=json")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("ip").textContent=data.ip;
+})
+.catch(()=>{
+document.getElementById("ip").textContent="غير متاح";
+});
+
+</script>
+
+</body>
+</html>
